@@ -6,37 +6,49 @@ import subprocess
 import os
 import sys
 
-#checking super access
+# checking super access
 euid = os.geteuid()
 if euid != 0:
     print ("There is no root access. Try sudo...")
     args = ['sudo', sys.executable] + sys.argv + [os.environ]
     # Trying to rerun this script (following process) through sudo.
     os.execlpe('sudo', *args)
-print ('Root access granted - ', euid)
-#using super access
-#adding required packages
-__path = (os.path.abspath(__file__).replace(os.path.basename(__file__), ''))
-answer = raw_input("Owerwrite log yes or no? Default No. ").lower()
-print('answer value is ', answer)
-if answer == '':
-    answer = "no"
-    print('answer value is ',answer)
-    print('file is ',__file__)
-    print('name is ',__name__)
-    print('basename is ', os.path.basename(__file__))
-    print(os.path.dirname(__file__)+'/')
-    print('voodoo',(os.path.abspath(__file__).replace(os.path.basename(__file__), '') + 'nfsset.log'))
-if answer == "yes" or answer == "y":
-    subprocess.call('date ', '| ', 'tee nfsset.log', shell=True)
-    """subprocess.call('apt-get update -y | tee -a nfsset.log', shell=True)
-    subprocess.call('apt-get install nfs-kernel-server -y | tee -a nfsset.log', shell=True)
-    #subprocess.call('mv -f nfsset.log ../../logs/', shell=True)"""
-elif answer == "no" or answer == "n":
-    subprocess.call('date | tee -a %s' % (os.path.abspath(__file__).replace(os.path.basename(__file__), '') + '/nfsset.log'), shell=True)
-    """subprocess.call('apt-get update -y | tee -a nfsset.log', shell=True)
-    subprocess.call('apt-get install nfs-kernel-server -y | tee -a nfsset.log', shell=True)
-    #subprocess.call('mv -i nfsset.log ../../logs/', shell=True)"""
+print ('The effective user identifier is ', euid)
+# using super access
+# adding required packages for NSF server and client
+# getting absolute path to log folder
+# I can use os.getcwd() but who's know =) let me be die hard...
+___log_path = ((os.path.abspath(__file__).replace(('/documentation/preconditions/' + os.path.basename(__file__)), '/logs/')))
+# choosing between installation and uninstallation NFS
+def choice():
+    print("Step 1")
+    print('For installing NFS hit 1')
+    print('For uninstall NFS hit 2')
+    print('For skipping these step hit 3 or leave it empty')
+    answer = raw_input("Do you choice and press \"Enter\" ")
+
+    if answer == "1":
+        subprocess.call('date | tee -a %snfsset.log'% ___log_path, shell=True)
+        subprocess.call('apt-get update -y | tee -a %snfsset.log'% ___log_path, shell=True)
+        subprocess.call('apt-get install nfs-kernel-server -y nfs-common -y | tee -a %snfsset.log'% ___log_path, shell=True)
+
+    elif answer == "2":
+        subprocess.call('date | tee -a %snfsset.log'% ___log_path, shell=True)
+        subprocess.call('apt-get update -y | tee -a %snfsset.log', shell=True)
+        subprocess.call('apt-get purge nfs-kernel-server -y nfs-common -y | tee -a %snfsset.log'% ___log_path, shell=True)
+        exit()
+
+    elif answer == '' or answer == "3":
+        print('Step 1 is skipped')
+
+    else:
+        print("Incorrect input! Try again.")
+        choice()
+choice()
+#Settind up server configuration
+print('Step 2')
+
+
 
 
 
