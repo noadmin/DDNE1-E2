@@ -45,10 +45,16 @@ def choice():
         print("Incorrect input! Try again.")
         choice()
 choice()
-#Settind up server configuration
+# Settind up server configuration
 print('Step 2')
-
-
-
-
+# Making backup of /etc/exports
+subprocess.call('cp /etc/exports /etc/exports.back')
+# Adding test config
+# making new exported folder on server
+# SUDO is used for preventing acces errors
+subprocess.call('sudo echo \'/nfs *(rw,insecure,no_root_squash)\' >/etc/exports')
+subprocess.call('sudo mkdir /nfs')
+subprocess.call('sudo service nfs restart')
+# Mounting test folder on client
+subprocess.call('mount -t nfs4 127.0.0.1:/nfs /tmp')
 
