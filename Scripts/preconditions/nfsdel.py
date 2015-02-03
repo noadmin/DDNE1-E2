@@ -1,5 +1,9 @@
 __author__ = 'Admin'
 
+import os
+import sys
+import subprocess
+
 # checking super access
 euid = os.geteuid()
 if euid != 0:
@@ -9,6 +13,7 @@ if euid != 0:
     os.execlpe('sudo', *args)
 print ('The effective user identifier is ', euid)
 # Restoring list of export
+___log_path = ((os.path.abspath(__file__).replace(('/documentation/preconditions/' + os.path.basename(__file__)), '/logs/')))
 subprocess.call('cp /etc/exports.back /etc/exports')
 subprocess.call('sudo rmdir /nfs')
 subprocess.call('sudo service nfs restart')
