@@ -5,16 +5,34 @@ import os
 
 
 class TestDirectory(unittest.TestCase):
-
+#Let do some preparations
     def setUp(self):
         if os.path.exists('new_dir'):
             os.rmdir('new_dir')
-        if os.path.exists('rem_dir') == False:
+        if not os.path.exists('rem_dir'):
             os.mkdir('rem_dir')
+        if not os.path.exists('old_name_dir'):
+            os.mkdir('old_name_dir')
+        if not os.path.exists('owner_dir'):
+            os.mkdir('owner_dir')
+        if not os.path.exists('permissions_dir'):
+            os.mkdir('permissions_dir')
+
+    def tearDown(self):
+        if os.path.exists('new_dir'):
+            os.rmdir('new_dir')
+        if os.path.exists('rem_dir'):
+            os.rmdir('rem_dir')
+        if os.path.exists('new_name_dir'):
+            os.rmdir('new_name_dir')
+        if os.path.exists('owner_dir'):
+            os.rmdir('owner_dir')
+        if os.path.exists('permissions_dir'):
+            os.rmdir('permissions_dir')
 
     def test_crate(self):
         try:
-            self.assertFalse('new_dir')
+            self.assertFalse(os.path.exists('new_dir'))
             os.mkdir('new_dir')
             self.assertTrue(os.path.exists('new_dir'))
         except:
@@ -23,39 +41,37 @@ class TestDirectory(unittest.TestCase):
     def test_remove(self):
         try:
             self.assertTrue(os.path.exists('rem_dir'))
-            os.rmdir('test_dir')
-            self.assertFalse(os.path.exists('test_dir'))
+            os.rmdir('rem_dir')
+            self.assertFalse(os.path.exists('rem_dir'))
         except:
             self.fail('directory wasn\'t remowed')
 
     def test_rename(self):
         try:
-            os.mkdir('test_dir')
-            self.assertTrue(os.path.exists('test_dir'))
-            os.rename('test_dir', 'new_test_dir')
-            self.assertTrue(os.path.exists('new_test_dir'))
-            self.assertFalse(os.path.exists('test_dir'))
+            self.assertTrue(os.path.exists('old_name_dir'))
+            os.rename('old_name_dir', 'new_name_dir')
+            self.assertTrue(os.path.exists('new_name_dir'))
+            self.assertFalse(os.path.exists('old_name_dir'))
         except:
             self.fail('directory wasn\'t renamed')
-        os.rmdir('new_test_dir')
 
     def test_ch_owner(self):
         try:
-            os.mkdir('test_dir')
-            os.chown('test_dir', '1000', '1000')
+            self.assertTrue('owner_dir')
+            os.chown('owner_dir', 1, 1)
         except:
             self.fail('failded to change owner')
-        os.rmdir('test_dir')
 
     def test_ch_permissions(self):
         try:
-            os.mkdir('test_dir')
-            os.chmod('test_dir', '777')
+            self.assertTrue('permissions_dir')
+            os.chmod('permissions_dir', 0o777)
         except:
             self.fail('failed to change permissions')
-        os.rmdir('test_dir')
 
 
 if __name__ == '__main__':
-    runner = unittest.TextTestRunner()
-    unittest.main(testRunner=runner)
+    suite = unittest.TestLoader().loadTestsFromTestCase(TestDirectory)
+    unittest.TextTestRunner(verbosity=2).run(suite)
+    #runner = unittest.TextTestRunner(verbosity=2).run(suite)
+    #unittest.main(testRunner=runner)
