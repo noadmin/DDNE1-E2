@@ -30,5 +30,5 @@ Acceptance criteria:
         TC001: Passed
         TC002: Failed
         TC003: Passed
-    7. Should be executable at any Linux­like system
+    7. Should be executable at any Linux-like system
     8. Please use comments in the code

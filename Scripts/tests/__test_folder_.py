@@ -3,9 +3,9 @@ __author__ = 'Admin'
 import unittest
 import os
 
-
 class TestDirectory(unittest.TestCase):
 #Let do some preparations
+
     def setUp(self):
         if os.path.exists('new_dir'):
             os.rmdir('new_dir')
@@ -32,7 +32,7 @@ class TestDirectory(unittest.TestCase):
 
     def test_crate(self):
         try:
-            self.assertFalse(os.path.exists('new_dir'))
+            self.assertFalse(os.path.exists('new_dir'), '')
             os.mkdir('new_dir')
             self.assertTrue(os.path.exists('new_dir'))
         except:
@@ -61,7 +61,6 @@ class TestDirectory(unittest.TestCase):
             os.chown('owner_dir', 1, 1)
         except:
             self.fail('failded to change owner')
-
     def test_ch_permissions(self):
         try:
             self.assertTrue('permissions_dir')
@@ -70,8 +69,13 @@ class TestDirectory(unittest.TestCase):
             self.fail('failed to change permissions')
 
 
+
 if __name__ == '__main__':
-    suite = unittest.TestLoader().loadTestsFromTestCase(TestDirectory)
-    unittest.TextTestRunner(verbosity=2).run(suite)
-    #runner = unittest.TextTestRunner(verbosity=2).run(suite)
-    #unittest.main(testRunner=runner)
+    log_file = 'log_file.txt'
+    f = open(log_file, 'w')
+    runner = unittest.TextTestRunner(f, verbosity=2)
+    unittest.main(testRunner=runner)
+    # suite = unittest.TestLoader().loadTestsFromTestCase(TestDirectory)
+    # unittest.TextTestRunner(verbosity=2).run(suite)
+    # runner = unittest.TextTestRunner(verbosity=2).run(suite)
+    # unittest.main(testRunner=runner)
