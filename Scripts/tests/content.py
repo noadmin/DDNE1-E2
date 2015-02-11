@@ -6,7 +6,7 @@ import unittest
 import os
 import random
 
-
+# Trying to change content in target folder
 # To perform fully qualified test we must check base permissions
 # Trying to create folder in target directory
 

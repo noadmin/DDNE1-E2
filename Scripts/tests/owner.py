@@ -3,8 +3,6 @@ __author__ = 'noadmin'
 import unittest
 import os
 import random
-import subprocess
-
 
 # Trying to change file owner
 
