@@ -9,9 +9,9 @@ import random
 class TC007(unittest.TestCase):
     def setUp(self):
         if not os.path.exists('test_file'):
+            content = str(random.getrandbits(888))
             test_file = open('test_file', 'w')
-            random_sequence = str(random.getrandbits(838))
-            test_file.write(random_sequence)
+            test_file.write(content)
             test_file.close()
 
     def tearDown(self):
@@ -20,53 +20,23 @@ class TC007(unittest.TestCase):
 
     def testChangingFileUserOwner(self):
         current_user = os.getuid()
+        current_group = os.getgid()
         old_owner = os.stat('test_file').st_uid
         try:
             # Check who is the owner
             if old_owner == '0':
                 # set owner to current user
-                os.chown('test_file', uid=current_user)
+                os.chown('test_file', current_user, current_group)
             else:
                 # set owner to root
-                os.chown('test_file', uid='0')
+                os.chown('test_file', 0, 0)
             self.assertNotEqual(os.stat('test_file').st_uid, old_owner)
         except:
             self.fail('File owner user change failed')
 
-
-# Trying to change file owner group
-
-class TC008(unittest.TestCase):
-    def setUp(self):
-        if not os.path.exists('test_file'):
-            test_file = open('test_file', 'w')
-            random_sequence = str(random.getrandbits(838))
-            test_file.write(random_sequence)
-            test_file.close()
-
-    def tearDown(self):
-        if os.path.exists('test_file'):
-            os.remove('test_file')
-
-    def testChangingFileGroupOwner(self):
-        current_group = os.getgid()
-        old_owner = os.stat('test_file').st_gid
-        try:
-            # Check who is the owner
-            if old_owner == '0':
-                # set owner to current user group
-                os.chown('test_file', gid=current_group)
-            else:
-                # set owner to root
-                os.chown('test_file', gid='0')
-            self.assertNotEqual(os.stat('test_file').st_gid, old_owner)
-        except:
-            self.fail('File owner group change failed')
-
-
 # Trying to change folder owner
 
-class TC009(unittest.TestCase):
+class TC008(unittest.TestCase):
     def setUp(self):
         if not os.path.exists('test_folder'):
             os.mkdir('test_folder')
@@ -77,42 +47,43 @@ class TC009(unittest.TestCase):
 
     def testChangingFolderUserOwner(self):
         current_user = os.getuid()
+        current_group = os.getgid()
         old_owner = os.stat('test_folder').st_uid
         try:
             # Check who is the owner
             if old_owner == '0':
                 # set owner to current user
-                os.chown('test_folder', uid=current_user)
+                os.chown('test_folder', current_user, current_group)
             else:
                 # set owner to root
-                os.chown('test_folder', uid='0')
+                os.chown('test_folder', 0, 0)
             self.assertNotEqual(os.stat('test_folder').st_uid, old_owner)
         except:
             self.fail('Folder owner user change failed')
 
 
-# Trying to change folder owner group
-
-class TC010(unittest.TestCase):
-    def setUp(self):
-        if not os.path.exists('test_folder'):
-            os.mkdir('test_folder')
-
-    def tearDown(self):
-        if os.path.exists('test_folder'):
-            os.rmdir('test_folder')
-
-    def testChangingFolderGroupOwner(self):
-        current_group = os.getgid()
-        old_owner = os.stat('test_folder').st_gid
-        try:
-            # Check who is the owner
-            if old_owner == '0':
-                # set owner to current users group
-                os.chown('test_folder', gid=current_group)
-            else:
-                # set owner to root
-                os.chown('test_file', gid='0')
-            self.assertNotEqual(os.stat('test_folder').st_gid, old_owner)
-        except:
-            self.fail('Folder owner group change failed')
+# # Trying to change folder owner group
+#
+# class TC010(unittest.TestCase):
+#     def setUp(self):
+#         if not os.path.exists('test_folder'):
+#             os.mkdir('test_folder')
+#
+#     def tearDown(self):
+#         if os.path.exists('test_folder'):
+#             os.rmdir('test_folder')
+#
+#     def testChangingFolderGroupOwner(self):
+#         current_group = os.getgid()
+#         old_owner = os.stat('test_folder').st_gid
+#         try:
+#             # Check who is the owner
+#             if old_owner == '0':
+#                 # set owner to current users group
+#                 os.chown('test_folder', gid=current_group)
+#             else:
+#                 # set owner to root
+#                 os.chown('test_file', gid='0')
+#             self.assertNotEqual(os.stat('test_folder').st_gid, old_owner)
+#         except:
+#             self.fail('Folder owner group change failed')

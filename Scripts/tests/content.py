@@ -62,12 +62,12 @@ class TC003(unittest.TestCase):
 
     def testCreateFile(self):
         try:
+            content = str(random.getrandbits(888))
             test_file = open('test_file', 'w')
-            random_sequence = str(random.getrandbits(838))
-            test_file.write(random_sequence)
+            test_file.write(content)
             test_file.close()
             test_file = open('test_file', 'r')
-            self.assertEquals(random_sequence, test_file.read())
+            self.assertEquals(content, test_file.read())
             test_file.close()
         except:
             self.fail('file wasn\'t created')
@@ -79,9 +79,9 @@ class TC004(unittest.TestCase):
 
     def setUp(self):
         if not os.path.exists('test_file'):
+            content = str(random.getrandbits(888))
             test_file = open('test_file', 'w')
-            random_sequence = str(random.getrandbits(838))
-            test_file.write(random_sequence)
+            test_file.write(content)
             test_file.close()
 
     def tearDown(self):
@@ -90,19 +90,20 @@ class TC004(unittest.TestCase):
 
     def testModifyFile(self):
         try:
-            test_file = open('test_file', 'w')
-            old_text = test_file.read()
-            random_sequence = str(random.getrandbits(838))
-            test_file.write(random_sequence)
+            self.assertTrue('test_file')
+            test_file = open('test_file')
+            old_content = test_file.read()
             test_file.close()
-
-            test_file = open('test_file', 'r')
-            self.assertEquals(random_sequence, test_file.read())
-            self.assertNotEquals(old_text, test_file.read())
-            test_file.close()
-
+            new_content = str(random.getrandbits(888))
+            mod_file = open('test_file', 'w')
+            mod_file.write(new_content)
+            mod_file.close()
+            mod_file = open('test_file')
+            self.assertEqual(mod_file.read(), new_content)
+            self.assertNotEqual(mod_file.read(), old_content)
+            mod_file.close()
         except:
-            self.fail('file wasn\'t edited')
+            self.fail('File modification failed')
 
 
 # Trying to delete file
@@ -111,9 +112,9 @@ class TC005(unittest.TestCase):
 
     def setUp(self):
         if not os.path.exists('test_file'):
+            content = str(random.getrandbits(888))
             test_file = open('test_file', 'w')
-            random_sequence = str(random.getrandbits(838))
-            test_file.write(random_sequence)
+            test_file.write(content)
             test_file.close()
 
     def testDeleteFile(self):
@@ -131,9 +132,9 @@ class TC006(unittest.TestCase):
 
     def setUp(self):
         if not os.path.exists('test_file'):
+            content = str(random.getrandbits(888))
             test_file = open('test_file', 'w')
-            random_sequence = str(random.getrandbits(838))
-            test_file.write(random_sequence)
+            test_file.write(content)
             test_file.close()
 
     def tearDown(self):
