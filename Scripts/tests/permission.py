@@ -6,7 +6,7 @@ import random
 
 # Trying to change file permissions
 
-class TC011(unittest.TestCase):
+class TC009(unittest.TestCase):
     def setUp(self):
         if not os.path.exists('test_file'):
             test_file = open('test_file', 'w')

@@ -60,30 +60,3 @@ class TC008(unittest.TestCase):
             self.assertNotEqual(os.stat('test_folder').st_uid, old_owner)
         except:
             self.fail('Folder owner user change failed')
-
-
-# # Trying to change folder owner group
-#
-# class TC010(unittest.TestCase):
-#     def setUp(self):
-#         if not os.path.exists('test_folder'):
-#             os.mkdir('test_folder')
-#
-#     def tearDown(self):
-#         if os.path.exists('test_folder'):
-#             os.rmdir('test_folder')
-#
-#     def testChangingFolderGroupOwner(self):
-#         current_group = os.getgid()
-#         old_owner = os.stat('test_folder').st_gid
-#         try:
-#             # Check who is the owner
-#             if old_owner == '0':
-#                 # set owner to current users group
-#                 os.chown('test_folder', gid=current_group)
-#             else:
-#                 # set owner to root
-#                 os.chown('test_file', gid='0')
-#             self.assertNotEqual(os.stat('test_folder').st_gid, old_owner)
-#         except:
-#             self.fail('Folder owner group change failed')

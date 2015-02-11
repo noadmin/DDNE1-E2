@@ -22,11 +22,9 @@ if __name__ == '__main__':
     ownerTestSuite = unittest.TestSuite()
     ownerTestSuite.addTests(unittest.makeSuite(owner.TC007))
     ownerTestSuite.addTests(unittest.makeSuite(owner.TC008))
-    # ownerTestSuite.addTests(unittest.makeSuite(owner.TC009))
-    # ownerTestSuite.addTests(unittest.makeSuite(owner.TC010))
 
     permissionTestSuite = unittest.TestSuite()
-    permissionTestSuite.addTests(unittest.makeSuite(permission.TC011))
+    permissionTestSuite.addTests(unittest.makeSuite(permission.TC009))
 
     # Collecting all Test Suits in main object for general use
 
