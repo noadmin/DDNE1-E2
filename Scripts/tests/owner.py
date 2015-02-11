@@ -19,6 +19,7 @@ class TC007(unittest.TestCase):
             os.remove('test_file')
 
     def testChangingFileUserOwner(self):
+        self.assertTrue(os.path.exists('test_file'))
         current_user = os.getuid()
         current_group = os.getgid()
         old_owner = os.stat('test_file').st_uid
@@ -46,6 +47,7 @@ class TC008(unittest.TestCase):
             os.rmdir('test_folder')
 
     def testChangingFolderUserOwner(self):
+        self.assertTrue(os.path.exists('test_folder'))
         current_user = os.getuid()
         current_group = os.getgid()
         old_owner = os.stat('test_folder').st_uid
