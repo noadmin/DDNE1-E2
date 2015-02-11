@@ -10,7 +10,7 @@ class TC011(unittest.TestCase):
     def setUp(self):
         if not os.path.exists('test_file'):
             test_file = open('test_file', 'w')
-            random_sequence = random.getrandbits(8388608)
+            random_sequence = str(random.getrandbits(838))
             test_file.write(random_sequence)
             test_file.close()
 
@@ -68,4 +68,3 @@ class TC011(unittest.TestCase):
                 self.assertTrue(os.access('test_file', os.X_OK))
             except:
                 self.fail('Failed to change execute permission')
-            self.fail('Execute permission change failed')

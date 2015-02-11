@@ -28,9 +28,9 @@ class TC001(unittest.TestCase):
         try:
             self.assertFalse(os.path.exists('test_folder'))
             os.mkdir('test_folder')
-            self.assertTrue(os.path.exists('new_test_dir'))
+            self.assertTrue(os.path.exists('test_folder'))
         except:
-            self.fail(self, 'Failed to create folder')
+            self.fail('Failed to create folder')
 
 
 # Trying to delete folder
@@ -49,7 +49,7 @@ class TC002(unittest.TestCase):
             os.rmdir('test_folder')
             self.assertFalse(os.path.exists('test_folder'))
         except:
-            self.fail(self, 'Failed to delete folder')
+            self.fail('Failed to delete folder')
 
 
 # Trying to create test file with random content
@@ -63,9 +63,10 @@ class TC003(unittest.TestCase):
     def testCreateFile(self):
         try:
             test_file = open('test_file', 'w')
-            random_sequence = random.getrandbits(8388608)
+            random_sequence = str(random.getrandbits(838))
             test_file.write(random_sequence)
             test_file.close()
+            test_file = open('test_file', 'r')
             self.assertEquals(random_sequence, test_file.read())
             test_file.close()
         except:
@@ -79,15 +80,19 @@ class TC004(unittest.TestCase):
     def setUp(self):
         if not os.path.exists('test_file'):
             test_file = open('test_file', 'w')
-            random_sequence = random.getrandbits(8388608)
+            random_sequence = str(random.getrandbits(838))
             test_file.write(random_sequence)
             test_file.close()
+
+    def tearDown(self):
+        if os.path.exists('test_file'):
+            os.remove('test_file')
 
     def testModifyFile(self):
         try:
             test_file = open('test_file', 'w')
             old_text = test_file.read()
-            random_sequence = random.getrandbits(8388608)
+            random_sequence = str(random.getrandbits(838))
             test_file.write(random_sequence)
             test_file.close()
 
@@ -107,7 +112,7 @@ class TC005(unittest.TestCase):
     def setUp(self):
         if not os.path.exists('test_file'):
             test_file = open('test_file', 'w')
-            random_sequence = random.getrandbits(8388608)
+            random_sequence = str(random.getrandbits(838))
             test_file.write(random_sequence)
             test_file.close()
 
@@ -127,7 +132,7 @@ class TC006(unittest.TestCase):
     def setUp(self):
         if not os.path.exists('test_file'):
             test_file = open('test_file', 'w')
-            random_sequence = random.getrandbits(8388608)
+            random_sequence = str(random.getrandbits(838))
             test_file.write(random_sequence)
             test_file.close()
 
